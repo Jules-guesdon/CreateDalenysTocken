@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test HFTOKEN</title>
+
+  <!-- Hosted Fields Dalenys (Sandbox) -->
+  <script src="https://js.sandbox.be2bill.com/hostedfields/v1/hosted-fields.min.js"></script>
+
+  <style>
+    .field {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      width: 250px;
+      height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Générer un HFTOKEN</h2>
+
+<form id="cardForm">
+  <div id="card-number" class="field"></div>
+  <div id="card-expiry" class="field"></div>
+  <div id="card-cvv" class="field"></div>
+
+  <button type="submit">Générer le token</button>
+</form>
+
+<pre id="result"></pre>
+
+<script>
+  if (!window.HostedFields) {
+    document.getElementById("result").textContent =
+      "❌ HostedFields non chargé (vérifie HTTP + sandbox)";
+  }
+
+  const hf = HostedFields.initialize({
+    publicKey: "PUB_SANDBOX_xxxxxxxxxxxxx", // ✅ vraie clé
+    fields: {
+      cardNumber: {
+        selector: "#card-number",
+        placeholder: "4242 4242 4242 4242"
+      },
+      expiryDate: {
+        selector: "#card-expiry",
+        placeholder: "MM/YY"
+      },
+      cvv: {
+        selector: "#card-cvv",
+        placeholder: "123"
+      }
+    }
+  });
+
+  document.getElementById("cardForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    try {
+      const result = await hf.createToken();
+
+      document.getElementById("result").textContent =
+        "✅ HFTOKEN généré :\n" + result.token;
+
+    } catch (err) {
+      document.getElementById("result").textContent =
+        "❌ Erreur :\n" + JSON.stringify(err, null, 2);
+    }
+  });
+</script>
+
+</body>
+</html>
