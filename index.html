@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="UTF-8">
   <title>Créer un HFTOKEN</title>
 
-
   <!-- Hosted Fields Dalenys Sandbox -->
-
-  <script src="https://js.sandbox.be2bill.com/hostedfields/v1/hosted-fieldspt>
-
-  <style>
+  <script src="https://js.sandbox.be2bill.com/hostedfields/v1/hosted-fields.min>
     .field {
       border: 1px solid #ccc;
       padding: 10px;
@@ -20,7 +15,6 @@
     }
   </style>
 </head>
-
 
 <body>
 
@@ -44,7 +38,7 @@
   }
 
   const hf = HostedFields.initialize({
-    publicKey: "TA_CLE_PUBLIQUE_SANDBOX",
+    publicKey: "TA_CLE_PUBLIQUE_SANDBOX", // ⚠️ vraie clé sandbox ici
     fields: {
       cardNumber: { selector: "#card-number" },
       expiryDate: { selector: "#card-expiry" },
