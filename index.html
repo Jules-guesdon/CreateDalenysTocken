@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Test HFTOKEN</title>
+  <meta charset="UTF-8">
+  <title>Créer un HFTOKEN</title>
 
-  <!-- Hosted Fields Dalenys (Sandbox) -->
-  <script src="https://js.sandbox.be2bill.com/hostedfields/v1/hosted-fields.min.js"></script>
-
-  <style>
+  <!-- Hosted Fields Dalenys Sandbox -->
+  <script src="https://js.sandbox.be2bill.com/hostedfields/v1/hosted-fields.min>
     .field {
       border: 1px solid #ccc;
       padding: 10px;
@@ -17,10 +15,9 @@
     }
   </style>
 </head>
-
 <body>
 
-<h2>Générer un HFTOKEN</h2>
+<h3>Générer un HFTOKEN</h3>
 
 <form id="cardForm">
   <div id="card-number" class="field"></div>
@@ -35,42 +32,31 @@
 <script>
   if (!window.HostedFields) {
     document.getElementById("result").textContent =
-      "❌ HostedFields non chargé (vérifie HTTP + sandbox)";
+      "❌ HostedFields non chargé";
   }
 
   const hf = HostedFields.initialize({
-    publicKey: "PUB_SANDBOX_xxxxxxxxxxxxx", // ✅ vraie clé
+    publicKey: "TA_CLE_PUBLIQUE_SANDBOX",
     fields: {
-      cardNumber: {
-        selector: "#card-number",
-        placeholder: "4242 4242 4242 4242"
-      },
-      expiryDate: {
-        selector: "#card-expiry",
-        placeholder: "MM/YY"
-      },
-      cvv: {
-        selector: "#card-cvv",
-        placeholder: "123"
-      }
+      cardNumber: { selector: "#card-number" },
+      expiryDate: { selector: "#card-expiry" },
+      cvv: { selector: "#card-cvv" }
     }
   });
 
-  document.getElementById("cardForm").addEventListener("submit", async (e) => {
+  document.getElementById("cardForm").addEventListener("submit", async e => {
     e.preventDefault();
-
     try {
-      const result = await hf.createToken();
-
+      const res = await hf.createToken();
       document.getElementById("result").textContent =
-        "✅ HFTOKEN généré :\n" + result.token;
-
+        "✅ HFTOKEN : " + res.token;
     } catch (err) {
       document.getElementById("result").textContent =
-        "❌ Erreur :\n" + JSON.stringify(err, null, 2);
+        "❌ Erreur : " + JSON.stringify(err);
     }
   });
 </script>
 
 </body>
 </html>
+``
