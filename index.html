@@ -5,7 +5,9 @@
   <title>Créer un HFTOKEN</title>
 
   <!-- Hosted Fields Dalenys Sandbox -->
-  <script src="https://js.sandbox.be2bill.com/hostedfields/v1/hosted-fields.min>
+  <script src="https://js.sandbox.be2bill.com/hostedfields/v1/hosteds</script>
+
+  <style>
     .field {
       border: 1px solid #ccc;
       padding: 10px;
@@ -15,6 +17,7 @@
     }
   </style>
 </head>
+
 <body>
 
 <h3>Générer un HFTOKEN</h3>
@@ -33,6 +36,7 @@
   if (!window.HostedFields) {
     document.getElementById("result").textContent =
       "❌ HostedFields non chargé";
+    throw new Error("HostedFields non chargé");
   }
 
   const hf = HostedFields.initialize({
@@ -52,11 +56,10 @@
         "✅ HFTOKEN : " + res.token;
     } catch (err) {
       document.getElementById("result").textContent =
-        "❌ Erreur : " + JSON.stringify(err);
+        "❌ Erreur : " + JSON.stringify(err, null, 2);
     }
   });
 </script>
 
 </body>
 </html>
-``
