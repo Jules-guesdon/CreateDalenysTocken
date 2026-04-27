@@ -1,64 +1,30 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Créer un HFTOKEN</title>
+<script src="https://cdn.payplug.com/js/payplug-themes.js"></script>
 
-  <!-- Hosted Fields Dalenys Sandbox -->
-<script src="https://js.sandbox.be2bill.com/hostedfields/v1/hosted-fields.min.js"></script>
-  <style>
-    .field {
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-bottom: 10px;
-      width: 250px;
-      height: 40px;
-    }
-  </style>
-</head>
-
-<body>
-
-<h3>Générer un HFTOKEN</h3>
-
-<form id="cardForm">
-  <div id="card-number" class="field"></div>
-  <div id="card-expiry" class="field"></div>
-  <div id="card-cvv" class="field"></div>
-
-  <button type="submit">Générer le token</button>
+<form id="payment-form">
+  <div id="payplug-card"></div>
+  <button type="submit">Payer</button>
 </form>
 
-<pre id="result"></pre>
-
 <script>
-  if (!window.HostedFields) {
-    document.getElementById("result").textContent =
-      "❌ HostedFields non chargé";
-    throw new Error("HostedFields non chargé");
-  }
-
-  const hf = HostedFields.initialize({
-    publicKey: "sk_test_3ZeT9qQSi1sDEVgthSthw0", // ⚠️ vraie clé sandbox ici
-    fields: {
-      cardNumber: { selector: "#card-number" },
-      expiryDate: { selector: "#card-expiry" },
-      cvv: { selector: "#card-cvv" }
-    }
+  const payplug = Payplug({
+    publishableKey: "sk_test_3ZeT9qQSi1sDEVgthSthw0" // ✅ clé publique Payplug
   });
 
-  document.getElementById("cardForm").addEventListener("submit", async e => {
-    e.preventDefault();
-    try {
-      const res = await hf.createToken();
-      document.getElementById("result").textContent =
-        "✅ HFTOKEN : " + res.token;
-    } catch (err) {
-      document.getElementById("result").textContent =
-        "❌ Erreur : " + JSON.stringify(err, null, 2);
-    }
-  });
+  const card = payplug.createCard();
+  card.mount("#payplug-card");
+
+  document
+    .getElementById("payment-form")
+    .addEventListener("submit", async e => {
+      e.preventDefault();
+
+      const result = await payplug.createToken(card);
+
+      if (result.error) {
+        console.error(result.error);
+      } else {
+        // 👉 envoyer result.token.id à ton backend
+        console.log(result.token.id);
+      }
+    });
 </script>
-
-</body>
-</html>
